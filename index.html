@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DoorNur ERP — калькулятор оценки</title>
+<title>DoorNur — возможности системы и стоимость</title>
 <style>
   * { box-sizing: border-box; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  body { margin: 0; background: #f1f5f9; color: #0f172a; padding-bottom: 190px; }
+  body { margin: 0; background: #f1f5f9; color: #0f172a; padding-bottom: 175px; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 16px 14px; }
   h1 { font-size: 22px; font-weight: 800; margin: 4px 0 2px; }
   .lead { font-size: 13px; color: #64748b; margin: 0 0 14px; }
@@ -17,21 +17,23 @@
   .tab { flex: 1; padding: 8px 6px; border-radius: 8px; cursor: pointer; border: 1px solid #e2e8f0;
          background: #fff; color: #64748b; font-weight: 700; font-size: 12.5px; line-height: 1.3; text-align: center; }
   .tab small { font-weight: 400; font-size: 11px; opacity: .8; display: block; }
-  .tab.active { border-color: #4f46e5; background: #eef2ff; color: #4f46e5; }
+  .tab.active { border-color: #0d9488; background: #f0fdfa; color: #0d9488; }
+  .toolrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .rate-in { width: 90px; padding: 6px 8px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; }
+  .printbtn { margin-left: auto; background: #0d9488; color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
   .phase-head { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 8px; }
   .phase-t { font-size: 15px; font-weight: 800; }
   .phase-s { font-size: 12px; color: #64748b; }
   .selbtn { font-size: 12px; background: transparent; border-radius: 8px; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
   .block { display: flex; gap: 10px; align-items: flex-start; background: #f8fafc; border: 1px solid #e2e8f0;
-           border-left: 4px solid #e2e8f0; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; cursor: pointer; transition: all .12s; }
+           border-left: 4px solid #e2e8f0; border-radius: 10px; padding: 11px 12px; margin-bottom: 8px; cursor: pointer; transition: all .12s; }
   .block.on { background: #fff; }
   .cb { width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0; margin-top: 1px; border: 2px solid #cbd5e1;
         background: #fff; color: #fff; font-size: 13px; line-height: 16px; text-align: center; font-weight: 700; }
-  .bname { font-size: 13.5px; font-weight: 600; line-height: 1.3; }
-  .bq { font-size: 11.5px; color: #94a3b8; margin-top: 2px; }
-  .bprice { font-size: 12.5px; color: #475569; margin-top: 4px; }
+  .bname { font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .bdesc { font-size: 12px; color: #64748b; margin-top: 3px; line-height: 1.4; }
+  .bprice { font-size: 12.5px; color: #475569; margin-top: 6px; }
   .bprice b { color: #1e293b; }
-  .bprice span { color: #94a3b8; }
   .note { font-size: 11px; color: #94a3b8; margin-top: 4px; }
   .bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; color: #fff; padding: 12px 14px; box-shadow: 0 -4px 20px rgba(0,0,0,.25); }
   .bar-in { max-width: 760px; margin: 0 auto; }
@@ -41,11 +43,8 @@
   .sum { flex: 1; background: #1e293b; border-radius: 10px; padding: 8px 12px; }
   .sum .lbl { font-size: 11px; color: #94a3b8; }
   .sum .val { font-size: 20px; font-weight: 800; }
-  .meta { font-size: 12px; color: #cbd5e1; margin-top: 8px; display: flex; justify-content: space-between; }
   .kzt { color: #cbd5e1; font-size: 13px; font-weight: 700; margin-top: 2px; }
-  .toolrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .rate-in { width: 90px; padding: 6px 8px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; }
-  .printbtn { margin-left: auto; background: #4f46e5; color: #fff; border: none; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .meta { font-size: 12.5px; color: #cbd5e1; margin-top: 8px; text-align: center; }
   @media print {
     body { padding-bottom: 0; background: #fff; }
     .bar { position: static; box-shadow: none; margin-top: 16px; }
@@ -57,14 +56,14 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>DoorNur ERP — калькулятор оценки</h1>
-  <p class="lead">Отмечай блоки — стоимость и сроки внизу пересчитываются. Две колонки: <b>стартовая</b> и <b>дорогая</b> оценка. Цены ориентировочные, для подрядчика-компании, в USD.</p>
+  <h1>DoorNur — возможности системы и стоимость</h1>
+  <p class="lead">Отметьте возможности, которые нужны вашему бизнесу — внизу появится <b>ориентировочная стоимость</b> и срок. По каждой части указано, что она даёт. Две цифры: <b>минимальная</b> и <b>максимальная</b> оценка.</p>
 
   <div class="panel">
-    <div class="panel-t">Тип конфигуратора (влияет на блок «Калькулятор изделий»)</div>
+    <div class="panel-t">Как система считает цены на изделия</div>
     <div class="tabs">
-      <div class="tab active" id="tab-sku" onclick="setEngine(false)">Калькулятор по SKU<small>готовое из Китая · дешевле</small></div>
-      <div class="tab" id="tab-eng" onclick="setEngine(true)">Движок на правилах<small>сборка под размер · дороже</small></div>
+      <div class="tab active" id="tab-sku" onclick="setEngine(false)">Выбор готовых моделей<small>проще и быстрее запустить</small></div>
+      <div class="tab" id="tab-eng" onclick="setEngine(true)">Конструктор под размер<small>мощнее, но дороже</small></div>
     </div>
   </div>
 
@@ -80,52 +79,52 @@
 
   <div id="phases"></div>
 
-  <p class="note">Календарный срок ≈ человеко-дни ÷ команда (~2,4 чел.) — не линейная сумма, блоки идут параллельно. Цены — рамка для сверки с реальным подрядчиком, не КП.</p>
+  <p class="note">Стоимость и сроки ориентировочные. Точная смета фиксируется после согласования всех возможностей. Срок указан в календарных месяцах с учётом параллельной работы.</p>
 </div>
 
 <div class="bar">
   <div class="bar-in">
-    <div class="bar-c">Выбрано блоков: <b id="cnt">0</b></div>
+    <div class="bar-c">Выбрано возможностей: <b id="cnt">0</b></div>
     <div class="sums">
-      <div class="sum"><div class="lbl">СТАРТОВАЯ</div><div class="val" style="color:#4ade80" id="low">$0</div><div class="kzt" id="lowkzt">0 ₸</div></div>
-      <div class="sum"><div class="lbl">ДОРОГАЯ</div><div class="val" style="color:#fbbf24" id="high">$0</div><div class="kzt" id="highkzt">0 ₸</div></div>
+      <div class="sum"><div class="lbl">МИНИМУМ</div><div class="val" style="color:#4ade80" id="low">$0</div><div class="kzt" id="lowkzt">0 ₸</div></div>
+      <div class="sum"><div class="lbl">МАКСИМУМ</div><div class="val" style="color:#fbbf24" id="high">$0</div><div class="kzt" id="highkzt">0 ₸</div></div>
     </div>
-    <div class="meta"><span>⏱ <span id="days">0–0</span> чел-дней</span><span>📅 ≈ <span id="mo">0–0</span> мес.</span></div>
+    <div class="meta">📅 Ориентировочный срок ≈ <span id="mo">0–0</span> мес.</div>
   </div>
 </div>
 
 <script>
 const PHASES = [
-  { id:"p1", title:"Фаза 1 — MVP (рабочее ядро)", sub:"Без этого система не запускается", accent:"#4f46e5", blocks:[
-    {id:"b0", name:"Аналитика, ТЗ, схема БД, дизайн-макеты", q:"1,2,4,20,32", low:4000, high:7000, dLow:15, dHigh:20, def:true},
-    {id:"b1", name:"Каркас Laravel + аутентификация + RBAC + категории дилеров", q:"7,8,9", low:3000, high:5500, dLow:12, dHigh:16, def:true},
-    {id:"b2", name:"Номенклатура + мультивалюта (CNY/KZT) + прайсы по категориям", q:"10,12,13", low:3500, high:6500, dLow:15, dHigh:20, def:true},
-    {id:"b3", name:"Закупочно-импортный контур + landed cost + приёмка", q:"11,18", low:4500, high:8000, dLow:18, dHigh:24, def:true},
-    {id:"b4", name:"Склад: остатки, резервирование, движения", q:"17,19", low:3000, high:5500, dLow:12, dHigh:16, def:true},
-    {id:"b5", name:"Калькулятор изделий", q:"1,3,6", low:4500, high:9000, dLow:18, dHigh:26, def:true, engine:true},
-    {id:"b6", name:"Расчёты → заказы покупателя + статусы (workflow)", q:"20,21,22", low:3500, high:6500, dLow:14, dHigh:18, def:true},
-    {id:"b7", name:"Генерация документов (КП/спец — PDF, договор/счёт — шаблоны)", q:"14,15,16", low:2500, high:5000, dLow:10, dHigh:15, def:true},
-    {id:"b8", name:"Финансы: оплаты + кредитные лимиты/задолженность", q:"23,24", low:2000, high:4000, dLow:8, dHigh:12, def:true},
-    {id:"b9", name:"Отчёты (задолженность, остатки, продажи, договоры)", q:"Отчёты", low:2500, high:5000, dLow:10, dHigh:15, def:true},
-    {id:"b10", name:"Интеграция с 1С (ежедневная выгрузка файлом)", q:"25,26,27", low:2000, high:4500, dLow:8, dHigh:12, def:true},
-    {id:"b11", name:"Тестирование, развёртывание, обучение, гарантия", q:"29,30,31", low:4000, high:7000, dLow:18, dHigh:25, def:true},
-    {id:"b12", name:"Управление проектом (PM, координация, демо)", q:"33", low:3000, high:6000, dLow:10, dHigh:18, def:true},
+  { id:"p1", title:"Базовые возможности", sub:"Основа системы — с этого начинается работа", accent:"#0d9488", blocks:[
+    {id:"b0", name:"Проектирование и дизайн системы", desc:"Продумывание логики работы и удобного интерфейса — фундамент, на котором строится всё остальное.", low:4000, high:7000, dLow:15, dHigh:20, def:true},
+    {id:"b1", name:"Личные кабинеты и права доступа", desc:"Вход для сотрудников и дилеров. У каждого своя роль: кто что видит и что может делать. Дилер видит только свои заказы.", low:3000, high:5500, dLow:12, dHigh:16, def:true},
+    {id:"b2", name:"Каталог товаров и цены", desc:"Товары с ценами в юанях и тенге, автоматический пересчёт по курсу, разные цены для разных категорий дилеров.", low:3500, high:6500, dLow:15, dHigh:20, def:true},
+    {id:"b3", name:"Закупки из Китая", desc:"Заказы поставщику, отслеживание контейнеров (в пути / на таможне / принято) и реальная стоимость товара с учётом доставки и растаможки.", low:4500, high:8000, dLow:18, dHigh:24, def:true},
+    {id:"b4", name:"Складской учёт", desc:"Остатки в реальном времени, резерв товара под заказ, история движений. Вы не продадите то, чего уже нет на складе.", low:3000, high:5500, dLow:12, dHigh:16, def:true},
+    {id:"b5", name:"Расчёт стоимости изделий", desc:"Менеджер или клиент выбирает товар с опциями (размер, цвет, автоматика) и сразу видит цену.", low:4500, high:9000, dLow:18, dHigh:26, def:true, engine:true},
+    {id:"b6", name:"Заказы и их статусы", desc:"Весь путь заказа — от заявки до отгрузки. Всегда видно, на каком этапе каждый заказ, ничего не теряется.", low:3500, high:6500, dLow:14, dHigh:18, def:true},
+    {id:"b7", name:"Документы одним кликом", desc:"Коммерческие предложения, спецификации, договоры и счета формируются автоматически, без ручного набора.", low:2500, high:5000, dLow:10, dHigh:15, def:true},
+    {id:"b8", name:"Финансовый контроль", desc:"Учёт оплат, лимиты товара в долг для дилеров, отслеживание задолженности.", low:2000, high:4000, dLow:8, dHigh:12, def:true},
+    {id:"b9", name:"Отчёты и аналитика", desc:"Наглядные сводки для руководителя: продажи, остатки, задолженности, договоры.", low:2500, high:5000, dLow:10, dHigh:15, def:true},
+    {id:"b10", name:"Связь с 1С (бухгалтерия)", desc:"Ежедневная автоматическая передача данных в 1С — бухгалтерия получает всё без ручного ввода.", low:2000, high:4500, dLow:8, dHigh:12, def:true},
+    {id:"b11", name:"Запуск, обучение, гарантия", desc:"Тестирование, установка на сервер, обучение сотрудников и гарантийная поддержка после запуска.", low:4000, high:7000, dLow:18, dHigh:25, def:true},
+    {id:"b12", name:"Сопровождение проекта", desc:"Управление ходом работ, контрольные встречи и демонстрации результата на каждом этапе.", low:3000, high:6000, dLow:10, dHigh:18, def:true},
   ]},
-  { id:"p2", title:"Фаза 2 — Расширение", sub:"После запуска ядра, по мере роста", accent:"#0891b2", blocks:[
-    {id:"c1", name:"Субдилеры (многоуровневая сеть, права, цены)", q:"7", low:4000, high:7000, dLow:12, dHigh:18},
-    {id:"c2", name:"Встраиваемый JS-калькулятор на сайты дилеров (виджет)", q:"6", low:5000, high:9000, dLow:15, dHigh:22},
-    {id:"c3", name:"Автозапуск заказов дилером + кредитные линии", q:"21", low:3000, high:6000, dLow:10, dHigh:15},
-    {id:"c4", name:"Запись на отгрузку по слотам (расписание склада)", q:"22", low:2500, high:5000, dLow:8, dHigh:12},
-    {id:"c5", name:"Расширенные отчёты и бонусы", q:"—", low:3000, high:6000, dLow:10, dHigh:15},
-    {id:"c6", name:"Мультиязычность (казахский)", q:"30", low:3000, high:6000, dLow:10, dHigh:14},
-    {id:"c7", name:"B2C-витрина (розничный магазин) — опционально", q:"5", low:4500, high:6000, dLow:15, dHigh:22},
+  { id:"p2", title:"Дополнительные возможности", sub:"Подключаются по мере роста бизнеса", accent:"#0891b2", blocks:[
+    {id:"c1", name:"Сеть субдилеров", desc:"Дилеры со своими партнёрами под ними: многоуровневые цены и права доступа.", low:4000, high:7000, dLow:12, dHigh:18},
+    {id:"c2", name:"Калькулятор на сайтах дилеров", desc:"Окно расчёта цены, которое дилер вставляет на свой сайт. Заявки от клиентов приходят автоматически.", low:5000, high:9000, dLow:15, dHigh:22},
+    {id:"c3", name:"Самостоятельные заказы дилеров", desc:"Проверенные дилеры оформляют заказы сами, без участия вашего менеджера.", low:3000, high:6000, dLow:10, dHigh:15},
+    {id:"c4", name:"Запись на отгрузку по времени", desc:"Дилер бронирует время получения товара — без очередей и толкучки на складе.", low:2500, high:5000, dLow:8, dHigh:12},
+    {id:"c5", name:"Расширенная аналитика и бонусы", desc:"Углублённые отчёты и бонусные программы для поощрения дилеров.", low:3000, high:6000, dLow:10, dHigh:15},
+    {id:"c6", name:"Казахский язык", desc:"Интерфейс системы на двух языках — русском и казахском.", low:3000, high:6000, dLow:10, dHigh:14},
+    {id:"c7", name:"Розничный интернет-магазин", desc:"Продажа частным покупателям: корзина, онлайн-оплата, доставка. Отдельное направление.", low:4500, high:6000, dLow:15, dHigh:22},
   ]},
-  { id:"p3", title:"Фаза 3 — Тяжёлые блоки", sub:"Если войдут в скоуп", accent:"#9333ea", blocks:[
-    {id:"d1", name:"Рекламации с фотофиксацией", q:"4", low:5000, high:9000, dLow:15, dHigh:22},
-    {id:"d2", name:"Фотоконтроль монтажа (роль «Мастер монтажа», оценка)", q:"4", low:6000, high:11000, dLow:18, dHigh:26},
-    {id:"d3", name:"Воронка замеров с автоподбором монтажников", q:"4", low:6000, high:12000, dLow:18, dHigh:28},
-    {id:"d4", name:"СДО — система обучения (видео, тесты)", q:"4", low:6000, high:12000, dLow:18, dHigh:28},
-    {id:"d5", name:"Строительные проекты / домокомплекты", q:"4", low:7000, high:16000, dLow:22, dHigh:35},
+  { id:"p3", title:"Расширенные модули", sub:"По необходимости, под особые задачи", accent:"#9333ea", blocks:[
+    {id:"d1", name:"Рекламации с фотографиями", desc:"Приём претензий с фото и отслеживание их обработки от заявки до решения.", low:5000, high:9000, dLow:15, dHigh:22},
+    {id:"d2", name:"Фотоконтроль монтажа", desc:"Монтажники загружают фото установки, специалист проверяет качество работы.", low:6000, high:11000, dLow:18, dHigh:26},
+    {id:"d3", name:"Выезды на замер", desc:"Заявки на замер с автоматическим подбором монтажной бригады по региону.", low:6000, high:12000, dLow:18, dHigh:28},
+    {id:"d4", name:"Обучение дилеров", desc:"Видеокурсы и тесты для партнёров прямо в системе.", low:6000, high:12000, dLow:18, dHigh:28},
+    {id:"d5", name:"Строительные проекты и домокомплекты", desc:"Комплектация и расчёт под крупные строительные заказы.", low:7000, high:16000, dLow:22, dHigh:35},
   ]},
 ];
 const ENGINE = { low:9000, high:18000, dLow:35, dHigh:60 };
@@ -161,13 +160,13 @@ function render(){
       el.style.borderColor = on ? p.accent + "55" : "#e2e8f0";
       el.style.borderLeftColor = on ? p.accent : "#e2e8f0";
       el.onclick = () => { checked[b.id] = !checked[b.id]; render(); calc(); };
-      const eng = (b.engine && engineMode) ? ` · <span style="color:#9333ea;font-weight:700">движок</span>` : "";
+      const eng = (b.engine && engineMode) ? ` · <span style="color:#9333ea;font-weight:700">конструктор</span>` : "";
       el.innerHTML =
         `<div class="cb" style="border-color:${on?p.accent:'#cbd5e1'};background:${on?p.accent:'#fff'}">${on?'✓':''}</div>`+
         `<div style="flex:1;min-width:0">`+
           `<div class="bname">${b.name}${eng}</div>`+
-          `<div class="bq">вопросы брифа: ${b.q}</div>`+
-          `<div class="bprice"><b>${fmt(v.low)} – ${fmt(v.high)}</b> <span> · ${v.dLow}–${v.dHigh} чел-дней</span></div>`+
+          `<div class="bdesc">${b.desc}</div>`+
+          `<div class="bprice"><b>${fmt(v.low)} – ${fmt(v.high)}</b></div>`+
         `</div>`;
       root.appendChild(el);
     });
@@ -187,7 +186,6 @@ function calc(){
   document.getElementById("high").textContent = fmt(high);
   document.getElementById("lowkzt").textContent = kzt(low);
   document.getElementById("highkzt").textContent = kzt(high);
-  document.getElementById("days").textContent = dLow + "–" + dHigh;
   document.getElementById("mo").textContent = (dLow/team/22).toFixed(1) + "–" + (dHigh/team/22).toFixed(1);
 }
 
